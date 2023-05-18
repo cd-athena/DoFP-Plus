@@ -101,3 +101,22 @@ make
 ./bin/http_client_dofp_python -H www.optimized-abr.com -s 192.168.153.139:123456 -p tos1_h264/107/segment_1.m4s -M GET -K -r 250 -w 1 -J 0
 ```
 
+
+## Contributors
+* Daniele Lorenzi - Christian Doppler Laboratory ATHENA, Alpen-Adria-Universitaet Klagenfurt - daniele.lorenzi@aau.at
+* Minh Nguyen - Christian Doppler Laboratory ATHENA, Alpen-Adria-Universitaet Klagenfurt - minhnguyenkstn@gmail.com
+
+
+## Citation
+```
+@article{nguyen2022dofp+,
+  title={DoFP+: An HTTP/3-Based Adaptive Bitrate Approach Using Retransmission Techniques},
+  author={Nguyen, Minh and Lorenzi, Daniele and Tashtarian, Farzad and Hellwagner, Hermann and Timmerer, Christian},
+  journal={IEEE Access},
+  volume={10},
+  pages={109565--109579},
+  year={2022},
+  publisher={IEEE}
+}
+
+```
