@@ -70,7 +70,7 @@ as follows:
 
 ```
 git clone https://github.com/cd-athena/DoFP-Plus.git
-cd lsquic
+cd DoFP-Plus
 ```
 
 2. Compile the library
