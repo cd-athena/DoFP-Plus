@@ -32,7 +32,7 @@ You may need to install pre-requisites like zlib and libevent.
 2. Use specific BoringSSL version
 
 ```
-git checkout a2278d4d2cabe73f6663e3299ea7808edfa306b9
+git checkout 31bad2514d21f6207f3925ba56754611c462a873
 ```
 
 3. Compile the library
@@ -69,11 +69,8 @@ as follows:
 1. Get the source code
 
 ```
-git clone https://github.com/cd-athena/dofp.git
+git clone https://github.com/cd-athena/DoFP-Plus.git
 cd lsquic
-git checkout my_updates
-git submodule init
-git submodule update
 ```
 
 2. Compile the library
@@ -87,20 +84,85 @@ cmake -DBORINGSSL_DIR=$BORINGSSL .
 make
 ```
 
-As a dynamic library:
+3. Create SSL certificate at the server side
 
 ```
-cmake -DLSQUIC_SHARED_LIB=1 -DBORINGSSL_DIR=$BORINGSSL .
-make
+openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem
 ```
 
+4. Install ITU-T P.1203 codec extension
 
-3. Run experiments
+Follow the instruction in IT-T P.1203's [extension](https://github.com/Telecommunication-Telemedia-Assessment/itu-p1203-codecextension)
+
+
+Modify the following line in `./bin/http_client_dofp_python.c` with the path of ITU-T P.1203's extension
 
 ```
-./bin/http_client_dofp_python -H www.optimized-abr.com -s 192.168.153.139:123456 -p tos1_h264/107/segment_1.m4s -M GET -K -r 250 -w 1 -J 0
+snprintf(command, max_command_length, "python3 /home/minh/Documents/itu-p1203-codecextension/calculate.py -m 0 %s > %s\n", JSON_FILENAME, JSON_OUT_FILENAME);
 ```
 
+Modify the parameters related to ITU-T P.1203's extension
+```
+static const float      FPS = 24.0;
+static const char       DEVICE[] = "pc";
+static const char       DISPLAYSIZE[] = "3840x2160";
+static const unsigned   VIEWINGDISTANCE = 150U;
+```
+
+5. Modify video's information
+
+The current version of DoFP+ does not support reading the MPD file. Therefore, you need to update some video's information in
+```
+#define N_REP 7 /* Number of available media representations (quality levels) */
+#define N_MAX_SEG 75 /* Max number of segments to be downloaded */
+
+static char             *seg_paths[N_REP] = {"tos1_h264/107/segment_1.m4s", 
+                                              "tos1_h264/240/segment_1.m4s", 
+                                              "tos1_h264/346/segment_1.m4s", 
+                                              "tos1_h264/715/segment_1.m4s", 
+                                              "tos1_h264/1347/segment_1.m4s", 
+                                              "tos1_h264/2426/segment_1.m4s", 
+                                              "tos1_h264/4121/segment_1.m4s"};
+static const int        seg_bitrates[N_REP] = {107, 240, 346, 715, 1347, 2426, 4121}; // [kbps]
+static char             *seg_res[N_REP] = {"256x114", "426x190", "640x286", "854x382", "1280x572", "1920x858", "2560x1142"};
+static const char       FP_PATH[] = "tos1_h264/";
+static const char       SP_PATH[] = "/segment_";
+static const char       EXT[] = ".m4s";
+static const char       WEIGHTS_FILENAME[] = "tos1_h264/weights.txt";
+```
+
+Run experiments
+---------------------
+
+1. Server
+
+```
+./bin/http_server_dofp -c www.optimized-abr.com,cert.pem,key.pem -s <server_ip>:<port>
+```
+
+2. Client
+
+```
+./bin/http_client_dofp_python -H www.optimized-abr.com -s <server_ip>:<port> -p tos1_h264/107/segment_1.m4s -M GET -K -r 250 -w 1 -J 0
+```
+
+where:
+
+```
+  -M  HTTP method (e.g., GET)
+  -K  Discard server response
+  -r  Total number of requests to send
+  -w  Number of concurrent requests per single connection
+  -J  ABR algorithms (0: DoFP+, 4: Throughput-based, 5: BOLA, 6: SARA, 7: BBA-0)
+```
+
+3. Results
+The results are reported at the client machine. There are four files as follows
+
+- metrics_abr_<-J value>.csv        --> This file comprises the log of download every segments.
+- metrics_abr_<-J value>_out.csv    --> This file provides some metrics of the streaming session.
+- itu-p1203_abr_<-J value>.json     --> This file comprises the information of every downloaded segment. It is used for calculating QoE by ITU-T P.1203's extension.
+- itu-p1203_abr_<-J value>_out.json --> This files is the output of ITU-T P.1203's extension. The predicted overall QoE has the key `"O46"`.
 
 ## Contributors
 * Daniele Lorenzi - Christian Doppler Laboratory ATHENA, Alpen-Adria-Universitaet Klagenfurt - daniele.lorenzi@aau.at

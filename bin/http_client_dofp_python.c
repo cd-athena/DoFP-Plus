@@ -2734,6 +2734,7 @@ usage (const char *prog)
 "                 request.  This adds two more headers to the request:\n"
 "                 content-type: application/octet-stream and\n"
 "                 content-length\n"
+"	-J			ABR algorithms (0: DoFP+, 4: Throughput-based, 5: BOLA, 6: SARA, 7: BBA-0).\n"
 "   -K          Discard server response\n"
 "   -I          Abort on incomplete reponse from server\n"
 "   -4          Prefer IPv4 when resolving hostname\n"
@@ -3697,7 +3698,7 @@ main (int argc, char **argv)
 	/* CREATE OUTPUT JSON FILE */
 	int max_command_length = 250;
 	char command[max_command_length];
-	snprintf(command, max_command_length, "python3 itu-p1203-codecextension/calculate.py -m 0 %s > %s\n", JSON_FILENAME, JSON_OUT_FILENAME);
+	snprintf(command, max_command_length, "python3 /home/minh/Documents/itu-p1203-codecextension/calculate.py -m 0 %s --accept-notice > %s\n", JSON_FILENAME, JSON_OUT_FILENAME);
 	int error = system(command);
 	if (error == -1)
 		printf("Error executing the command \'%s\'", command);
