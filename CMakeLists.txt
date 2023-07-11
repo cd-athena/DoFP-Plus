@@ -228,7 +228,7 @@ find_path(GUROBI_INCLUDE_DIRS
 message("GUROBI_INCLUDE_DIRS points to " ${GUROBI_INCLUDE_DIRS})
 
 find_library(GUROBI_LIBRARY
-    NAMES gurobi gurobi91
+    NAMES gurobi gurobi91 gurobi100
     HINTS ${GUROBI_DIR} $ENV{GUROBI_HOME}
     PATH_SUFFIXES lib)
 
