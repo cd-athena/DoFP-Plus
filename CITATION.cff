@@ -1,6 +1,27 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite both the article from preferred-citation and the software itself."
+authors:
+- family-names: "Nguyen"
+  given-names: "Minh"
+  orcid: "https://orcid.org/0000−0002−9691−1719"
+- family-names: "Lorenzi"
+  given-names: "Daniele"
+  orcid: "https://orcid.org/0000-0003-3689-6315"
+- family-names: "Tashtarian"
+  given-names: "Farzad"
+  orcid: "https://orcid.org/0000-0002-5584-6690" 
+- family-names: "Hellwagner"
+  given-names: "Hermann"
+  orcid: "https://orcid.org/0000-0003-1114-2584"
+- family-names: "Timmerer"
+  given-names: "Christian"
+  orcid: "https://orcid.org/0000-0002-0031-5243"
+title: "DoFP+: An HTTP/3-Based Adaptive Bitrate Approach Using Retransmission Techniques"
+version: 1.0.0
+date-released: 2022-12-09
+url: "https://github.com/cd-athena/DoFP-Plus"
 preferred-citation:
+  type: article
   authors:
     - family-names: "Nguyen"
       given-names: "Minh"
@@ -17,14 +38,9 @@ preferred-citation:
     - family-names: "Timmerer"
       given-names: "Christian"
       orcid: "https://orcid.org/0000-0002-0031-5243"
-  title: "DoFP+: An HTTP/3-Based Adaptive Bitrate Approach Using Retransmission Techniques"
   doi: 10.1109/ACCESS.2022.3214827
-  url : "https://doi.org/10.1109/ACCESS.2022.3214827"
-  type: journal-paper
-  pages: "10.1109/ACCESS.2022.3214827"
+  title: "DoFP+: An HTTP/3-Based Adaptive Bitrate Approach Using Retransmission Techniques"
+  start: 109565
+  end: 109579
   year: "2022"
-  journal: "IEEE Access, A Multidisciplinary, Open-access Journal of the IEEE"
-title: "DoFP+: An HTTP/3-Based Adaptive Bitrate Approach Using Retransmission Techniques"
-version: 1.0.0
-date-released: 2022-12-09
-url: "https://github.com/cd-athena/DoFP-Plus"
+  journal: "IEEE Access"
